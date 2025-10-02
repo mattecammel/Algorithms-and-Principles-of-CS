@@ -1,0 +1,46 @@
+Final Exam in Algorithms and Data Structures 2023–2024
+
+An industrial pastry shop wants to improve its order management system and tasks you with developing software that simulates the operation of the pastry shop. The entire simulation occurs in discrete time. It is assumed that, after executing each command received as input, a unit of time passes. The simulation starts at time 0.
+
+The simulation must consider the following elements:
+
+The ingredients of the desserts, each identified by its name, consisting of a sequence of characters.
+
+The set of recipes offered by the pastry shop, also identified by a name. Each recipe uses different amounts of each required ingredient (specified by an integer number, in grams).
+
+The pastry shop’s warehouse of ingredients, which stores every ingredient used. The warehouse is replenished with new batches of ingredients according to a schedule set by the supplier. Each batch is characterized by a quantity (always in grams) and an expiration date, given as the number of the time instant from which the batch is expired.
+
+The customers place orders for one or more desserts either via an online platform or by phone. In either case, the pastry shop immediately begins preparing the ordered sweets. The advanced (and expensive) machinery that prepares the desserts is so fast that it can be assumed that any number of desserts can be prepared in a single time instant of the simulation. The necessary ingredients for each preparation are taken from the warehouse, always prioritizing the batches with the earliest expiration date.
+If there are not enough ingredients available to fully prepare an order, it is placed on hold. An arbitrary number of orders can be waiting. The pastry shop proceeds with the preparation of any subsequent orders. After each replenishment, the pastry shop checks if it is possible, with the received ingredients, to prepare currently pending orders. If so, they are prepared at the same time instant. Pending orders are fulfilled in chronological order of arrival.
+
+Periodically, the courier comes to the pastry shop to pick up the ready orders. Upon arrival, the orders to be loaded are chosen in chronological order of arrival. The process stops as soon as an order exceeds the remaining capacity (in grams) of the delivery van. It is assumed that the weight of each prepared dessert is equal to the sum of the amounts in grams of each ingredient. Each order must always be loaded in its entirety. Once the orders are selected, the pastry shop proceeds to load them in decreasing order of weight. If weights are equal, orders are loaded in chronological order of arrival.
+
+It is assumed that all quantities are integers greater than zero, regardless of the unit of measure. Names, whether of ingredients or recipes, are defined over the alphabet {a,...,z, A,...,Z, _} and can be up to 255 characters long. The simulation ends after reading the last command.
+
+The input text file starts with a line containing two integers: the courier’s periodicity and its capacity. This is followed by a sequence of commands, one per line, in the following format. All positive or null integer values are representable in 32 bits.
+
+aggiungi_ricetta ⟨recipe_name⟩ ⟨ingredient_name⟩ ⟨quantity⟩ ...
+Example: aggiungi_ricetta meringhe_della_prozia zucchero 100 albumi 100
+Adds a recipe to the catalog. The number of pairs (⟨ingredient_name⟩ ⟨quantity⟩) is arbitrary. If a recipe with the same name already exists, it is ignored.
+Expected output: aggiunta (added) or ignorato (ignored).
+
+rimuovi_ricetta ⟨recipe_name⟩
+Example: rimuovi_ricetta cannoncini
+Removes a recipe from the catalog. It has no effect if the recipe is not present, or if there are pending orders related to it not yet shipped.
+Expected output: rimossa (removed), ordini in sospeso (pending orders), or non presente (not present).
+
+rifornimento ⟨ingredient_name⟩ ⟨quantity⟩ ⟨expiration⟩ ...
+Example: rifornimento zucchero 200 150 farina 1000 220
+The pastry shop is replenished with a set of batches, one per ingredient. The number of batches is arbitrary.
+Expected output: rifornito (replenished).
+
+ordine ⟨recipe_name⟩ ⟨number_of_items_ordered⟩
+Example: ordine torta_paradiso 36
+Places an order of ⟨number_of_items_ordered⟩ desserts using recipe ⟨recipe_name⟩.
+Expected output: accettato (accepted) or rifiutato (rejected), if no recipe with the specified name exists.
+
+In addition to the outputs listed above, the program prints the orders contained in the courier’s van as a sequence of triples:
+⟨order_arrival_time⟩ ⟨recipe_name⟩ ⟨number_of_items_ordered⟩,
+one per line, in loading order.
+
+Given a courier with periodicity n, the print is made before handling the commands at time kn, with k ∈ {1, 2, …}. If the van is empty, the message camioncino vuoto (van empty) is printed.
